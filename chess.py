@@ -53,7 +53,7 @@ while running:
     mouse_pressed = pygame.mouse.get_pressed()
     
     # Function for Drawing the chessboard
-    def chessBoard(start):
+    def chessBoard(start): 
         for row in range(BOARD_SIZE):
             for col in range(BOARD_SIZE):
                 color = WHITE if (row + col) % 2 == 0 else GRAY
