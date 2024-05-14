@@ -1,3 +1,4 @@
+from ssl import Options
 import pygame
 import sys
 
@@ -11,6 +12,7 @@ SQUARE_SIZE = WIDTH // BOARD_SIZE
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (128, 128, 128)
+OPTIONBLUE = (22, 170, 219)
 
 # Create the screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -26,6 +28,14 @@ class pawn:
     moveSide = 0
     moveTilt = 0
     moveWeird = 0
+
+    def showMoveOption(self):
+        option_x = self.x
+        option_y = self.y + 1
+        pygame.draw.rect(screen, OPTIONBLUE, (option_x * SQUARE_SIZE, option_y * SQUARE_SIZE, SQUARE_SIZE,SQUARE_SIZE))
+        options = {option_x, option_y}
+        return options 
+
 # Load chess piece images (you can replace these with your own)
 p1 = pawn()
 p2 = pawn()
@@ -47,9 +57,10 @@ def chessBoard(start):
         for col in range(BOARD_SIZE):
             color = WHITE if (row + col) % 2 == 0 else GRAY
             pygame.draw.rect(screen, color, (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
-            if row == 1 and start == 1:  # Prüfe, ob row == 1 und start == 1 ist
-                pawns[col].x = col
-                pawns[col].y = row
+            if row == 1:
+                if start == 1:
+                    pawns[col].x = col
+                    pawns[col].y = row
                 screen.blit(pawns[pawns[col].x].image, (col * SQUARE_SIZE, row * SQUARE_SIZE))  # Place pawns on the second row
                 print("Pawn" + str(col) + " x: " + str(pawns[col].x))
                 print("Pawn" + str(col) + " y: " + str(pawns[col].y))
@@ -58,10 +69,13 @@ chessBoard(1)
 
 # Function for checking if there is a chesspeace on given location
 def checkPeace(x,y):
+    chessBoard(0)
     for i in range(len(pawns)):
         if pawns[i].x == x and pawns[i].y == y:
-            print("yes")
-            return pawns[i]
+           options = pawns[i].showMoveOption()
+        return options
+
+
 
 # Main game loop
 running = True
@@ -81,7 +95,9 @@ while running:
     
 
     if mouse_pressed[0]:
-        peace = checkPeace(mouse_x // SQUARE_SIZE, mouse_y // SQUARE_SIZE)
+        options = checkPeace(mouse_x // SQUARE_SIZE, mouse_y // SQUARE_SIZE)
+        if (mouse_x // SQUARE_SIZE) == options[0] and (mouse_y // SQUARE_SIZE) == options[1]:
+            print ("asd")
         #pawns[0].x = mouse_x // SQUARE_SIZE 
         #pawns[0].y = mouse_y // SQUARE_SIZE  
         #print("---------------------------")
