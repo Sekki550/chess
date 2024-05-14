@@ -20,8 +20,8 @@ class pawn:
     size = (SQUARE_SIZE, SQUARE_SIZE)  # Square size for chessboard
     image = pygame.image.load('pawn.png')
     image = pygame.transform.scale(image, size)
-    pawn_x = 0
-    pawn_y = 0
+    x = 0
+    y = 0
     moveStraight = 1
     moveSide = 0
     moveTilt = 0
@@ -41,6 +41,28 @@ pawns = [p1, p2, p3, p4, p5, p6, p7, p8]
 rook_image = pygame.image.load('rook.png')
 # Load other piece images...
 
+# Function for Drawing the chessboard
+def chessBoard(start):
+    for row in range(BOARD_SIZE):
+        for col in range(BOARD_SIZE):
+            color = WHITE if (row + col) % 2 == 0 else GRAY
+            pygame.draw.rect(screen, color, (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+            if row == 1 and start == 1:  # Prüfe, ob row == 1 und start == 1 ist
+                pawns[col].x = col
+                pawns[col].y = row
+                screen.blit(pawns[pawns[col].x].image, (col * SQUARE_SIZE, row * SQUARE_SIZE))  # Place pawns on the second row
+                print("Pawn" + str(col) + " x: " + str(pawns[col].x))
+                print("Pawn" + str(col) + " y: " + str(pawns[col].y))
+            
+chessBoard(1)
+
+# Function for checking if there is a chesspeace on given location
+def checkPeace(x,y):
+    for i in range(len(pawns)):
+        if pawns[i].x == x and pawns[i].y == y:
+            print("yes")
+            return pawns[i]
+
 # Main game loop
 running = True
 while running:
@@ -52,30 +74,21 @@ while running:
     mouse_x, mouse_y = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
     
-    # Function for Drawing the chessboard
-    def chessBoard(start):
-        for row in range(BOARD_SIZE):
-            for col in range(BOARD_SIZE):
-                color = WHITE if (row + col) % 2 == 0 else GRAY
-                pygame.draw.rect(screen, color, (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
-                if row == 1:
-                    if start == 1:
-                        pawns[col].pawn_x = row
-                        pawns[col].pawn_y = col
-                        print("Pawn" + str(col) + " x: " + str(pawns[col].pawn_x))
-                        print("Pawn" + str(col) + " y: " + str(pawns[col].pawn_y))
-                    screen.blit(pawns[pawns[col].pawn_x].image, (col * SQUARE_SIZE, row * SQUARE_SIZE))  # Place pawns on the second row
-                   # start = 2
+    
 
 
-    chessBoard(1)
+
+    
 
     if mouse_pressed[0]:
-        pawns[0].pawn_x = mouse_x // SQUARE_SIZE 
-        pawns[0].pawn_y = mouse_y // SQUARE_SIZE  
-        print("x = ", pawns[0].pawn_x)
-        print("y = ", pawns[0].pawn_y)
-        screen.blit(pawns[0].image, (pawns[0].pawn_x * SQUARE_SIZE, pawns[0].pawn_y * SQUARE_SIZE))  # Place newpawn
+        peace = checkPeace(mouse_x // SQUARE_SIZE, mouse_y // SQUARE_SIZE)
+        #pawns[0].x = mouse_x // SQUARE_SIZE 
+        #pawns[0].y = mouse_y // SQUARE_SIZE  
+        #print("---------------------------")
+        #print("x = ", pawns[0].x)
+        #print("y = ", pawns[0].y)
+        #print("---------------------------")
+        #screen.blit(pawns[0].image, (pawns[0].x * SQUARE_SIZE, pawns[0].y * SQUARE_SIZE))  # Place newpawn
 
 
     
