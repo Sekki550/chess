@@ -18,6 +18,9 @@ OPTIONBLUE = (22, 170, 219)
 pawn_image = pygame.image.load('pawn.png')  # Pfad zu deinem Bauernbild
 pawn_image = pygame.transform.scale(pawn_image, (SQUARE_SIZE, SQUARE_SIZE))
 
+rook_image = pygame.image.load('rook.png')  # Pfad zu deinem Turmbild
+rook_image = pygame.transform.scale(rook_image, (SQUARE_SIZE, SQUARE_SIZE))
+
 # Create the screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Chess Game')
@@ -31,8 +34,8 @@ def initialize_board():
         for col in range(BOARD_SIZE): 
             square = {
                 'color': WHITE if (row + col) % 2 == 0 else GRAY,
-                'piece': None, # Save the Chesspiece here
-                'position': (col,row) 
+                'position': (col,row), 
+                'piece': 1 if row == 1 else (2 if col == 0 and row == 0 or col == 7 and row == 0 else None) # Save the Chesspiece here
             }
             board_row.append(square)
         board.append(board_row)
@@ -45,11 +48,12 @@ def drawBoard():
             square = board[row][col]
             color = square['color']
             pygame.draw.rect(screen, color, (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
-            if square['pieces'] == 1:
+            if square['piece'] == 1:
                 screen.blit(pawn_image, (col * SQUARE_SIZE, row * SQUARE_SIZE))
-            
+            elif square['piece'] == 2:
+                screen.blit(rook_image, (col * SQUARE_SIZE, row * SQUARE_SIZE))
 
-
+initialize_board()
 
 # Main game loop
 running = True
@@ -58,6 +62,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
+    drawBoard()
     # get current mouse position and state of mouse buttons
     mouse_x, mouse_y = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
