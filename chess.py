@@ -15,11 +15,24 @@ GRAY = (128, 128, 128)
 OPTIONBLUE = (22, 170, 219)
 
 # Load images
+# !!!   todo auf chess.com gehen und pieces klauen  !!!
 pawn_image = pygame.image.load('pawn.png')  # Pfad zu deinem Bauernbild
 pawn_image = pygame.transform.scale(pawn_image, (SQUARE_SIZE, SQUARE_SIZE))
 
 rook_image = pygame.image.load('rook.png')  # Pfad zu deinem Turmbild
 rook_image = pygame.transform.scale(rook_image, (SQUARE_SIZE, SQUARE_SIZE))
+
+knight_image = pygame.image.load('knight.png')  # Pfad zu deinem Turmbild
+knight_image = pygame.transform.scale(knight_image, (SQUARE_SIZE, SQUARE_SIZE))
+
+bishop_image = pygame.image.load('bishop.png')  # Pfad zu deinem Turmbild
+bishop_image = pygame.transform.scale(bishop_image, (SQUARE_SIZE, SQUARE_SIZE))
+
+queen_image = pygame.image.load('queen.png')  # Pfad zu deinem Turmbild
+queen_image = pygame.transform.scale(queen_image, (SQUARE_SIZE, SQUARE_SIZE))
+
+king_image = pygame.image.load('king.png')  # Pfad zu deinem Turmbild
+king_image = pygame.transform.scale(king_image, (SQUARE_SIZE, SQUARE_SIZE))
 
 # Create the screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -32,10 +45,24 @@ def initialize_board():
     for row in range(BOARD_SIZE):
         board_row = []
         for col in range(BOARD_SIZE): 
+            piece = None
+            if row == 1:
+                piece = 1
+            elif col == 0 and row == 0 or col == 7 and row == 0:
+                piece = 2
+            elif col == 1 and row == 0 or col == 6 and row == 0:
+                piece = 3
+            elif col == 2 and row == 0 or col == 5 and row == 0:
+                piece = 4
+            elif col == 3 and row == 0 :
+                piece = 5
+            elif col == 4 and row == 0 :
+                piece = 6
+
             square = {
                 'color': WHITE if (row + col) % 2 == 0 else GRAY,
                 'position': (col,row), 
-                'piece': 1 if row == 1 else (2 if col == 0 and row == 0 or col == 7 and row == 0 else None) # Save the Chesspiece here
+                'piece':  piece # Save the Chesspiece here
             }
             board_row.append(square)
         board.append(board_row)
@@ -52,6 +79,15 @@ def drawBoard():
                 screen.blit(pawn_image, (col * SQUARE_SIZE, row * SQUARE_SIZE))
             elif square['piece'] == 2:
                 screen.blit(rook_image, (col * SQUARE_SIZE, row * SQUARE_SIZE))
+            elif square['piece'] == 3:
+                screen.blit(knight_image, (col * SQUARE_SIZE, row * SQUARE_SIZE))
+            elif square['piece'] == 4:
+                screen.blit(bishop_image, (col * SQUARE_SIZE, row * SQUARE_SIZE))
+            elif square['piece'] == 5:
+                screen.blit(queen_image, (col * SQUARE_SIZE, row * SQUARE_SIZE))
+            elif square['piece'] == 6:
+                screen.blit(king_image, (col * SQUARE_SIZE, row * SQUARE_SIZE))
+
 
 initialize_board()
 
