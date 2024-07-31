@@ -34,9 +34,11 @@ queen_image = pygame.transform.scale(queen_image, (SQUARE_SIZE, SQUARE_SIZE))
 king_image = pygame.image.load('king.png')  # Pfad zu deinem Turmbild
 king_image = pygame.transform.scale(king_image, (SQUARE_SIZE, SQUARE_SIZE))
 
+
 # Create the screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Chess Game')
+
 
 # Initialize the Board
 board = []
@@ -62,7 +64,7 @@ def initialize_board():
             square = {
                 'color': WHITE if (row + col) % 2 == 0 else GRAY,
                 'position': (col,row), 
-                'piece':  piece # Save the Chesspiece here
+                'piece':  piece 
             }
             board_row.append(square)
         board.append(board_row)
