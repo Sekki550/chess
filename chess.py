@@ -1,7 +1,7 @@
 from ssl import Options
 import pygame
 import sys
-
+ 
 # Initialize Pygame
 pygame.init()
 
